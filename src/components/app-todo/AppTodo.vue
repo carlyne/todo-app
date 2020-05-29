@@ -7,10 +7,13 @@
     </header>
 
     <section class="main">
+      <input class="all-check" type="checkbox" v-model="allDone">
+
       <ul class="todo-list">
         <li class="todo" v-for="todo in filteredTodo" :key="todo.name">
           <input type="checkbox" v-model="todo.completed">
           <label :class="{completed: todo.completed}">{{ todo.name }}</label>
+          <span @click.prevent="deleteTodo(todo)">delete</span>
         </li>
       </ul>
     </section>
@@ -42,7 +45,8 @@ export default {
         completed: false
       }],
       newTodo: '',
-      filters: 'all'
+      filters: 'all',
+      allTasksDone: false
     }
   },
 
@@ -59,6 +63,18 @@ export default {
       } else {
         return this.todos;
       }
+    },
+
+    allDone: {
+      get() {
+        return this.remaining === 0;
+      },
+
+      set(value) {
+        this.todos.forEach(todo => {
+          todo.completed = value;
+        })
+      }
     }
   },
 
@@ -69,6 +85,10 @@ export default {
         completed: false
       })
       this.newTodo = '';
+    },
+
+    deleteTodo(selectedTodo) {
+      this.todos = this.todos.filter(todo => todo != selectedTodo);
     }
   }
 }
