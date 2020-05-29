@@ -1,17 +1,17 @@
 <template>
   <div class="home">
-    <Todo/>
+    <app-todo/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Todo from '@/components/Todo.vue'
+import AppTodo from '@/components/app-todo/AppTodo.vue'
 
 export default {
   name: 'Home',
   components: {
-    Todo
+    AppTodo
   }
 }
 </script>
