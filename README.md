@@ -1,3 +1,3 @@
 # todo-app
 
-Application de todo list pour prendre en mainla gestion de composants Vue.
+Application de todo list pfirstour prendre en main la gestion de composants Vue.
