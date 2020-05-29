@@ -9,7 +9,8 @@
     <section class="main">
       <ul class="todo-list">
         <li class="todo" v-for="todo in todos" :key="todo.name">
-          <label>{{ todo.name }}</label>
+          <input type="checkbox" v-model="todo.completed">
+          <label :class="{completed: todo.completed}">{{ todo.name }}</label>
         </li>
       </ul>
     </section>

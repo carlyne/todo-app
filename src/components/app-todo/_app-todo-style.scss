@@ -19,7 +19,7 @@ section.todo input {
 	border-radius: 2px;
 	font-size: inherit;
 	color:inherit;
-	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	font-family: inherit;
 	margin: 0;
 	padding: 10px;
 
@@ -27,7 +27,6 @@ section.todo input {
 		font-style: normal;
 		font-size: inherit;
 		color:inherit;
-		font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 		opacity: .3;
 	}
 }
@@ -43,15 +42,30 @@ section.todo .main  {
 		padding: 10px;
 		font-size: inherit;
 		color:inherit;
+		display: flex;
+		align-items: center;
 
 		
 		& label {
 			font-size: inherit;
 			color: inherit;
+			margin: 0;
+			padding: 2px;
 			font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 			opacity: .8;
+
+			&.completed {
+				color: grey;
+				opacity: .5;
+				text-decoration: line-through; 
+			}
 		}
 
+		& input[type="checkbox"] {
+			width: auto;
+			margin: 0 10px 0 0;
+			padding: 2px;
+			border-radius: 100%;
+		}
 	}
-
 }
