@@ -7,10 +7,10 @@
     </header>
 
     <section class="main">
-      <input class="all-check" type="checkbox" v-model="allDone">
+      <input class="all-check" type="checkbox" v-model="allDone" v-show="hasTodos">
 
       <ul class="todo-list">
-        <li class="todo" v-for="todo in filteredTodo" :key="todo.name">
+        <li class="todo" v-for="todo in filteredTodo" :key="todo.name" >
           <input type="checkbox" v-model="todo.completed">
           <label :class="{completed: todo.completed}">{{ todo.name }}</label>
           <span @click.prevent="deleteTodo(todo)">delete</span>
@@ -18,7 +18,7 @@
       </ul>
     </section>
     
-    <footer>
+    <footer v-show="hasTodos">
       <p> 
         <span class="todo-count">{{ remaining }}</span> 
         remaining tasks
@@ -28,6 +28,7 @@
         <li><a href="#" :class="{selected: filters === 'all'}" @click.prevent="filters = 'all'">all</a></li>
         <li><a href="#" :class="{selected: filters === 'todo'}" @click.prevent="filters = 'todo'">to do</a></li>
         <li><a href="#" :class="{selected: filters === 'done'}" @click.prevent="filters = 'done'">done</a></li>
+        <li><a href="" class="clear-all" v-show="completed" @click.prevent="deleteCompleted">delete completed</a></li>
       </ul>
 
     </footer>
@@ -39,20 +40,27 @@ export default {
   name: 'app-todo',
 
   data () {
-    return {
+    return {  
       todos: [{
         name: 'default task',
         completed: false
       }],
       newTodo: '',
-      filters: 'all',
-      allTasksDone: false
+      filters: 'all'
     }
   },
 
   computed: {
     remaining() {
       return this.todos.filter(todo => !todo.completed).length;
+    },
+
+    completed() {
+      return this.todos.filter(todo => todo.completed).length > 0;
+    },
+
+    hasTodos() {
+      return this.todos.length > 0;
     },
 
     filteredTodo() {
@@ -78,6 +86,7 @@ export default {
     }
   },
 
+
   methods: {
     addTodo() {
       this.todos.push({
@@ -88,7 +97,12 @@ export default {
     },
 
     deleteTodo(selectedTodo) {
+      // plutôt réservé pour de l'arhivage car supprime pas la tâche du tableau
       this.todos = this.todos.filter(todo => todo != selectedTodo);
+    },
+
+    deleteCompleted() {
+      this.todos = this.todos.filter(todo => !todo.completed);
     }
   }
 }

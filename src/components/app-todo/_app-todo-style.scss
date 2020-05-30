@@ -98,6 +98,7 @@ section.todo .main  {
 			right: 20px;
 			color:rgb(165, 31, 31);
 			opacity: .8;
+			cursor: pointer;
 		}
 	}
 }
@@ -115,5 +116,15 @@ section.todo footer {
 	& li {
 		display: inline-block;
 		padding: 0 10px;
+	}
+
+	& a.clear-all {
+		color:rgb(165, 31, 31);
+		cursor: pointer;
+
+		&:hover {
+			text-decoration: underline;
+			background: transparent;
+		}
 	}
 }
