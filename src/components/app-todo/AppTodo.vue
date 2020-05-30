@@ -10,9 +10,17 @@
       <input class="all-check" type="checkbox" v-model="allDone" v-show="hasTodos">
 
       <ul class="todo-list">
-        <li class="todo" v-for="todo in filteredTodo" :key="todo.name" >
+        <li class="todo" :class="{editing: todo === editing}" v-for="(todo, index) in filteredTodo" :key="index" >
+
+          <input class="edit" type="text" 
+            v-model="todo.name" 
+            @keyup.enter="doneEdit"
+            @keyup.esc="cancelEdit"
+            v-focus="todo === editing"
+            @blur="cancelEdit"> 
+
           <input type="checkbox" v-model="todo.completed">
-          <label :class="{completed: todo.completed}">{{ todo.name }}</label>
+          <label :class="{completed: todo.completed}" @dblclick="editTodo(todo)">{{ todo.name }}</label>
           <span @click.prevent="deleteTodo(todo)">delete</span>
         </li>
       </ul>
@@ -36,6 +44,8 @@
 </template>
 
 <script>
+import Vue from 'vue';
+
 export default {
   name: 'app-todo',
 
@@ -46,9 +56,12 @@ export default {
         completed: false
       }],
       newTodo: '',
-      filters: 'all'
+      filters: 'all',
+      editing: null,
+      oldTodo: ''
     }
   },
+
 
   computed: {
     remaining() {
@@ -96,6 +109,20 @@ export default {
       this.newTodo = '';
     },
 
+    editTodo(selectedTodo) {
+      this.editing = selectedTodo;
+      this.oldTodo = selectedTodo.name;
+    },
+
+    doneEdit() {
+      this.editing = null;
+    },
+
+    cancelEdit() {
+      this.editing.name = this.oldTodo;
+      this.doneEdit();
+    },
+
     deleteTodo(selectedTodo) {
       // plutôt réservé pour de l'arhivage car supprime pas la tâche du tableau
       this.todos = this.todos.filter(todo => todo != selectedTodo);
@@ -103,6 +130,16 @@ export default {
 
     deleteCompleted() {
       this.todos = this.todos.filter(todo => !todo.completed);
+    }
+  },
+
+  directives: {
+    focus(el, value) {
+      if(value) {
+        Vue.nextTick(() => {
+          el.focus();
+        })
+      }
     }
   }
 }
